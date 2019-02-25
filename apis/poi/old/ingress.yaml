@@ -1,7 +1,6 @@
 {{- if .Values.ingress.enabled -}}
 {{- $serviceName := include "chart.fullname" . -}}
 {{- $servicePort := .Values.service.externalPort -}}
-{{- $path := .Values.ingress.path -}}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:

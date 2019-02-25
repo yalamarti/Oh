@@ -2,10 +2,18 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+productionSlot: blue
+blue:
+  enabled: true
+  tag: latest
+
+green:
+  enabled: false
+  tag: latest
+
 replicaCount: 2
 repository:
-  image: acrreplace.azurecr.io/devopsoh/imagereplace
-  tag: latest
+  image: openhackefq8acr.azurecr.io/devopsoh/api-poi
   pullPolicy: Always
 image:
   name: mydrive-poi
@@ -16,23 +24,21 @@ service:
 ingress:
   enabled: true
   annotations:
-    kubernetes.io/ingress.class: traefik
+#    kubernetes.io/ingress.class: traefik
+    kubernetes.io/ingress.class: addon-http-application-routing
   rules:
     endpoint:
-      host: changeme
+      host: prod.d77ec743aa78470a8356.westus.aksapp.io
       paths:
-      - path: /api/poi
-        serviceName: api-poi-svc
+      - path: /
+        serviceName: poi-service-prod
         servicePort: 80
-      - path: /api/healthcheck/poi
-        serviceName: api-poi-svc
+    endpoint2:
+      host: test.d77ec743aa78470a8356.westus.aksapp.io
+      paths:
+      - path: /
+        serviceName: poi-service-stage
         servicePort: 80
-      - path: /api/docs/poi
-        serviceName: api-poi-svc
-        servicePort: 80
-      - path: /swagger/docs/poi
-        serviceName: api-poi-svc
-        servicePort: 80        
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:
